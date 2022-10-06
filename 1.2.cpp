@@ -3,29 +3,59 @@
 #include <cmath>
 using namespace std;
 
+/**
+ * \brief Рассчитывает дистанцию между двумя точками с заданными координатами.
+ * \param x1 координата по оси Х первой точки.
+ * \param y1 координата по оси Y первой точки.
+ * \param x2 координата по оси X первой точки.
+ * \param y2 координата по оси Y первой точки.
+ * \return Расстояние между двумя точками.
+ */
 
+double getDistance(double x1, double x2, double y1, double y2);
+
+
+/**
+ * \brief Точка входа в программу.
+ * \return Возвращает 0 в случае успеха.
+ */
+ 
 int main()
 {
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = 0;
-    int y2 = 0;
-    int sx = 0;
-    int sy = 0;
-    int s_final = 0;
-
 
     cout << "Введите координату оси абсцисс первой точки:" << endl;
+    double x1 = 0;
     cin >> x1;
+
     cout << "Введите координату оси ординат первой точки:" << endl;
+    double y1 = 0;
     cin >> y1;
+
     cout << "Введите координату оси абсцисс второй точки:" << endl;
+    double x2 = 0;
     cin >> x2;
+
     cout << "Введите координату оси ординат второй точки:" << endl;
+    double y2 = 0;
     cin >> y2;
 
 
-        if (x1 > x2)
+    const double distance = getDistance(x1, x2, y1, y2);
+
+    cout << "Расстояние между координатами = " << distance << endl;
+
+
+    return 0;
+}
+
+
+double getDistance(double x1, double x2, double y1, double y2)
+{
+    double sx = 0;
+    double sy = 0;
+    double s_final = 0;
+
+    if (x1 > x2)
         {
         sx = x1 - x2;
         }
@@ -57,10 +87,6 @@ int main()
         }
     
     s_final = sqrt((sx * sx) + (sy * sy));
-
-
-    cout << "Расстояние между координатами = " << s_final << endl;
-
-
-    return 0;
+    
+    return s_final;
 }
