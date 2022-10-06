@@ -12,7 +12,7 @@ using namespace std;
  * \return Расстояние между двумя точками.
  */
 
-const double getDistance(double x1, double x2, double y1, double y2);
+const double getDistance(const double x1, const double x2, const double y1, const double y2);
 
 
 /**
@@ -49,10 +49,10 @@ int main()
 }
 
 
-const double getDistance(double x1, double x2, double y1, double y2)
+const double getDistance(const double x1, const double x2, const double y1, const double y2)
 {
-    double sx = x1 - x2;
-    double sy = y1 - y2;
+    const double sx = x1 - x2;
+    const double sy = y1 - y2;
 
     return sqrt((sx * sx) + (sy * sy));
 }
