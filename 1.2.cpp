@@ -1,5 +1,4 @@
 #include <iostream>
-#define _USE_MATH_DEFINES // for C++
 #include <cmath>
 using namespace std;
 
@@ -14,6 +13,14 @@ using namespace std;
 
 const double getDistance(const double x1, const double x2, const double y1, const double y2);
 
+/**
+ * \brief Считывает координату из консоли.
+ * \param message Побуждающее сообщение для пользователя.
+ * \return Координату точки.
+ */
+
+double getCoordinate(const string& message);
+
 
 /**
  * \brief Точка входа в программу.
@@ -22,22 +29,10 @@ const double getDistance(const double x1, const double x2, const double y1, cons
  
 int main()
 {
-
-    cout << "Введите координату оси абсцисс первой точки:" << endl;
-    double x1 = 0;
-    cin >> x1;
-
-    cout << "Введите координату оси ординат первой точки:" << endl;
-    double y1 = 0;
-    cin >> y1;
-
-    cout << "Введите координату оси абсцисс второй точки:" << endl;
-    double x2 = 0;
-    cin >> x2;
-
-    cout << "Введите координату оси ординат второй точки:" << endl;
-    double y2 = 0;
-    cin >> y2;
+    const double x1 = getCoordinate("Введите координату оси абсцисс первой точки:");
+    const double y1 = getCoordinate("Введите координату оси ординат первой точки:");
+    const double x2 = getCoordinate("Введите координату оси абсцисс второй точки:");
+    const double y2 = getCoordinate("Введите координату оси ординат второй точки:");
 
 
     const double distance = getDistance(x1, x2, y1, y2);
@@ -55,4 +50,12 @@ const double getDistance(const double x1, const double x2, const double y1, cons
     const double sy = y1 - y2;
 
     return sqrt((sx * sx) + (sy * sy));
+}
+
+double getCoordinate(const string& message)
+{
+    cout << message;
+    double coordinate = 0.0;
+    cin >> coordinate;
+    return coordinate;
 }
