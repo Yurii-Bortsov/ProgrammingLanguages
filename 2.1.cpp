@@ -35,6 +35,11 @@ enum class userInput
     WITHOUT_C
 };
 
+/**
+ * \brief Точка входа в программу.
+ * \return Возвращает 0 в случае успеха.
+ */
+ 
 int main()
 {
     double a = getVariable("Введите значение перменной a: ");
@@ -53,7 +58,7 @@ int main()
 
     switch(choice)
     {
-        case 0:
+        case userInput::WITH_C:
         {
             double c = 0.0;
             c = a;
@@ -63,7 +68,7 @@ int main()
             break;
         }
 
-        case 1:
+        case userInput::WITHOUT_C:
         {
             double variable_after [2] = {a, b};
             b = variable_after[0];
