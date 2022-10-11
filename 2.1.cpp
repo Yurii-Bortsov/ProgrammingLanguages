@@ -10,25 +10,6 @@ using namespace std;
 
 double getVariable(const string& message);
 
-/**
- * \brief Меняет значение перменных между собой с помощью тертьей переменной.
- * \param a Значение пермененной a.
- * \param b Значение переменной b.
- * \return Значение перменных a и b после замены их значений.
- */
-
-double getWith_c(double a, double b);
-
-/**
- * \brief Меняет значение перменных между собой без помощи тертьей переменной.
- * \param a Значение пермененной a.
- * \param b Значение переменной b.
- * \return Значение перменных a и b после замены их значений.
- */
-
-double getWithout_c(double a, double b);
-
-
 enum class userInput
 {
     WITH_C,
