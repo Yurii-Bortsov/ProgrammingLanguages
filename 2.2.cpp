@@ -2,10 +2,25 @@
 #include <cmath>
 using namespace std;
 
+/**
+ * \brief Рассчитывает значение функции при x > a.
+ * \param x Значение пермененной x.
+ * \return Значение функции при x > a.
+ */
 const double getAnswer1(const double x);
 
+/**
+ * \brief Рассчитывает значение функции при x <= a.
+ * \param x Значение пермененной x.
+ * \return Значение функции при x <= a.
+ */
 const double getAnswer2(const double x);
 
+/**
+ * \brief Считывает переменную из консоли.
+ * \param message Побуждающее сообщение для пользователя.
+ * \return Значение переменной.
+ */
 double getVariable(const string& message);
 
 
