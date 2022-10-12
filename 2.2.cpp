@@ -59,12 +59,10 @@ double getVariable(const string& message)
 
 const double getAnswer1(const double x)
 {
-    const double t = (x * (sin(x)*sin(x)));
-    return t;
+    return (x * (sin(x)*sin(x)));
 }
 
 const double getAnswer2(const double x)
 {
-    const double t = (x * (cos(x)*cos(x)));
-    return t;
+    return (x * (cos(x)*cos(x)));
 }
