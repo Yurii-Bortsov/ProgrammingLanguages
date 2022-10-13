@@ -1,9 +1,7 @@
-/**
- * РЕШЕНИЕ НЕПРАВИЛЬНОЕ, У ТЕБЯ ТОЧКИ МОГУТ ЛЕЖАТЬ НА ПРЯМОЙ И НЕ ПРОХОДИТЬ ЧЕРЕЗ (0, 0)
-*/
+#define _USE_MATH_DEFINES // for C++
+#include <cmath>
 
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 /**
@@ -28,10 +26,11 @@ bool ifOneLine(const double xA,const double yA,const double xB,
 
 /**
  * \brief Вычисляет угол между точкой и осью 
- * \param message Побуждающее сообщение для пользователя.
- * \return Значение координаты.
+ * \param x Координата оси X точки.
+ * \param y Координата оси Y точки.
+ * \return Значение угла.
  */
-double getAngle(xB, yB);
+const double getAngle(const double x,const double y);
 
 /**
  * \brief Точка входа в программу.
@@ -45,17 +44,18 @@ int main()
     const double yB = getCoordinate("Введите координату оси Y точки B: ");
     const double xC = getCoordinate("Введите координату оси X точки C: ");
     const double yC = getCoordinate("Введите координату оси Y точки C: ");
+    cout << "\n";
 
     if (ifOneLine(xA, yA, xB, yB, xC, yC) == true)
     {
-        cout << "Точки A, B и C лежат на одной прямой";
+        cout << "Точки A, B и C лежат на одной прямой\n";
     }
     else
     {
         double B = getAngle(xB, yB);
 
-        cout << "Точки A, B и C не лежат на одной прямой." << endl;
-        cout << "Угол B = " << B;
+        cout << "Точки A, B и C не лежат на одной прямой." << endl << endl;
+        cout << "Угол B = " << B << "°" << "\n";
     }
 
     return 0;
@@ -76,7 +76,17 @@ bool ifOneLine(const double xA,const double yA,const double xB,
     double t = 0.0;
     t = xB/yB;
 
-    if (((xA/yA) == t)&&((xC/yC) == t))
+    if ((xC - xA) / (xB - xA) == (yC - yA) / (yB - yA))
+    {
+        return true;
+    }
+
+    else if ((xA == xB)&&(xA == xC))
+    {
+        return true;
+    }
+    
+    else if ((yA == yB)&&(yA == yC))
     {
         return true;
     }
@@ -84,7 +94,12 @@ bool ifOneLine(const double xA,const double yA,const double xB,
     else
     {
         return false;
-    }
+    } 
         
 }
 
+const double getAngle(const double x, const double y)
+{
+    const double tan = (y / x);
+    return ((atan(tan) * 180) / M_PI);
+}
