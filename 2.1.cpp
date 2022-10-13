@@ -10,6 +10,9 @@ using namespace std;
 
 double getVariable(const string& message);
 
+
+void MySwap(double *a, double *b);
+
 enum class userInput
 {
     WITH_C,
@@ -41,22 +44,18 @@ int main()
     {
         case userInput::WITH_C:
         {
-            double c = 0.0;
-            c = a;
-            a = b;
-            b = c;
+            MySwap(&a, &b);
             cout << "a = " << a << "\n" << "b = " << b << endl;
             break;
         }
 
         case userInput::WITHOUT_C:
         {
-            double variable_after [2] = {a, b};
-            b = variable_after[0];
-            a = variable_after[1];
+            swap(a, b);
             cout << "a = " << a << "\n" << "b = " << b << endl;
             break;
         }
+        
     }
     
     return 0;
@@ -68,4 +67,11 @@ double getVariable(const string& message)
     double variable = 0.0;
     cin >> variable;
     return variable;
+}
+
+void MySwap(double *a, double *b)
+{
+    double temp = *a;
+    *a = *b;
+    *b = temp;
 }
