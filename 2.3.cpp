@@ -73,24 +73,17 @@ double getCoordinate(const string& message)
 bool ifOneLine(const double xA,const double yA,const double xB, 
             const double yB, const double xC, const double yC)
 {
-    double t = 0.0;
-    t = xB/yB;
 
-    if ((xC - xA) / (xB - xA) == (yC - yA) / (yB - yA))
+    if ((xA == xB)&&(xA == xC) or (yA == yB)&&(yA == yC))
     {
         return true;
     }
 
-    else if ((xA == xB)&&(xA == xC))
+    if (abs((xC - xA) / (xB - xA) - (yC - yA) / (yB - yA)) < numeric_limits<double>::epsilon())
     {
         return true;
     }
     
-    else if ((yA == yB)&&(yA == yC))
-    {
-        return true;
-    }
-
     else
     {
         return false;
