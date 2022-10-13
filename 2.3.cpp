@@ -25,6 +25,19 @@ bool ifOneLine(const double xA,const double yA,const double xB,
             const double yB, const double xC, const double yC);
 
 /**
+ * \brief Определяет, лежат ли одинаковая координата X или Y у точек A, B и C .
+ * \param xA координата оси X точки A.
+ * \param yA координата оси Y точки A.
+ * \param xB координата оси X точки B.
+ * \param yA координата оси Y точки B.
+ * \param xC координата оси X точки C.
+ * \param yA координата оси Y точки C.
+ * \return true, если точки лежат на одной прямой и false, если не лежат на одной прямой.
+ */
+const double ifSameAxis(const double xA,const double yA,const double xB, 
+                const double yB, const double xC, const double yC);
+
+/**
  * \brief Вычисляет угол между точкой и осью 
  * \param x Координата оси X точки.
  * \param y Координата оси Y точки.
@@ -74,12 +87,12 @@ bool ifOneLine(const double xA,const double yA,const double xB,
             const double yB, const double xC, const double yC)
 {
 
-    if ((xA == xB)&&(xA == xC) or (yA == yB)&&(yA == yC))
+    if (ifSameAxis(xA, yA, xB, yB, xC, yC) == true)
     {
         return true;
     }
 
-    if (abs((xC - xA) / (xB - xA) - (yC - yA) / (yB - yA)) < numeric_limits<double>::epsilon())
+    else if (abs(((xC - xA) / (xB - xA)) - ((yC - yA) / (yB - yA))) < numeric_limits<double>::epsilon())
     {
         return true;
     }
@@ -87,12 +100,20 @@ bool ifOneLine(const double xA,const double yA,const double xB,
     else
     {
         return false;
-    } 
-        
+    }
 }
 
 const double getAngle(const double x, const double y)
 {
     const double tan = (y / x);
     return ((atan(tan) * 180) / M_PI);
+}
+
+const double ifSameAxis(const double xA,const double yA,const double xB, 
+                const double yB, const double xC, const double yC)
+{
+    return ((((xA - xB) < numeric_limits<double>::epsilon()) 
+        and ((xA - xC) < numeric_limits<double>::epsilon())) 
+        or (((yA - yB) < numeric_limits<double>::epsilon()) 
+        and ((yA - yC) < numeric_limits<double>::epsilon())));
 }
