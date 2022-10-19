@@ -51,6 +51,7 @@ enum class userInput
 
 int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigned int  col);
 int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col);
+void **printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col);
 
 /**
  * \brief Точка входа в программу.
@@ -99,8 +100,10 @@ int main()
 
             cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: \n" << endl;    
 
-            array = getArrayWithReplaceMax(array, rows, col);
-            printArray(array, rows, col);
+            int **array_with_replace_max = getArrayWithReplaceMax(array, rows, col);
+            printArray(array_with_replace_max, rows, col);
+
+            printArrayWithNullRows(array, rows, col);
 
             break;
         }
@@ -213,9 +216,6 @@ int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigne
     return arrayReplaced;
 }
 
-
-
-
 int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col)
 {
     int **arrayCopied = getArray(rows, col);
@@ -240,3 +240,59 @@ int arrayDestroyer(int **array, unsigned int rows)
     return 0;
 }
 
+void **printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col)
+{
+    int **arrayWithNullRows = arrayCopy(array, rows, col);
+
+    unsigned int newrows = 0;
+
+
+    for (unsigned int i = 0; i < rows; i++)
+    {
+        if ((arrayWithNullRows[i][0] % 3) == 0)
+        {
+            newrows = newrows + 1;
+            cout << arrayWithNullRows[i][0] << endl;
+
+        }
+    }
+
+    cout << "колво строк % 3 = " << newrows << endl;
+    
+    int indexRowsDiv3[newrows];
+    unsigned int temp = 0;
+
+    for (unsigned int i = 0; i < rows; i++)
+    {
+        if ((arrayWithNullRows[i][0] % 3) == 0)
+        {
+            indexRowsDiv3[temp] = arrayWithNullRows[i][0];
+            temp = temp + 1;
+        }
+    }
+
+    int **NewArray = getArray(rows+newrows, col);
+    unsigned int temp2 = 0;
+
+    for (unsigned int i = 0; i < rows+newrows; i++)
+    {
+        if (indexRowsDiv3[temp2] == i+1)
+        {
+            for (unsigned int j = 0; j < col; i++)
+            {
+                NewArray[i][j] = 0;
+            }
+
+            temp2 = temp2 + 1;
+            
+        }
+        else if (indexRowsDiv3[temp2] != i+1)
+        {
+            for (unsigned int j = 0; j < col; i++)
+            {
+                NewArray[i][j] = arrayWithNullRows[i][j];
+            }
+        }
+    }
+    printArray(NewArray, rows+newrows, col);
+}
