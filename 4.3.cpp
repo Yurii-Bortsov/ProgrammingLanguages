@@ -43,6 +43,7 @@ int **getRandomArray(const unsigned int rows, const unsigned int col);
  */
 int printArray(int **array, const unsigned int rows, const unsigned int  col);
 
+//*НАДО НАПИСАТЬ БРИФ
 enum class userInput
 {
     USER_INPUT = 1,
@@ -51,7 +52,7 @@ enum class userInput
 
 int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigned int  col);
 int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col);
-void **printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col);
+int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col);
 
 /**
  * \brief Точка входа в программу.
@@ -73,42 +74,44 @@ int main()
     const auto choice = static_cast<userInput>(input);
     cout << "\n";
 
+    int **array;
+
     switch(choice)
     {
         case userInput::USER_INPUT:
         {
-            int **array = getUserArray(rows, col);
-
-            cout << "=================================================" << "\n" << endl;
-
-            cout << "Начальный массив:\n" << endl;;
-            printArray(array, rows, col);
-
+            array = getRandomArray(rows, col);
+            
             break;
         }
         
         case userInput::RANDOM_INPUT:
         {
-            int **array = getRandomArray(rows, col);
-
-            cout << "=================================================" << "\n" << endl;
-
-            cout << "Начальный массив:\n" << endl;
-            printArray(array, rows, col);
-
-            cout << "=================================================" << "\n" << endl;
-
-            cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: \n" << endl;    
-
-            int **array_with_replace_max = getArrayWithReplaceMax(array, rows, col);
-            printArray(array_with_replace_max, rows, col);
-
-            printArrayWithNullRows(array, rows, col);
+            array = getRandomArray(rows, col);
 
             break;
         }
     }
 
+    // Вывод начального массива
+    cout << "Начальный массив:" << endl << endl;
+            
+    printArray(array, rows, col);
+            
+    cout << endl;
+
+    // Вывод массива, в котором каждый максимальный элемент строки заменен нулем.
+    cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: " << endl << endl;
+            
+    int **array_with_replace_max = getArrayWithReplaceMax(array, rows, col);
+    printArray(array_with_replace_max, rows, col);
+            
+    cout << endl;
+
+    // Вывод массива, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
+    cout << "Массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей: " << endl << endl;
+
+    printArrayWithNullRows(array, rows, col);
 
 
     return 0;
@@ -181,7 +184,6 @@ int **getRandomArray(const unsigned int rows, const unsigned int col)
     return array;
 }
 
-
 int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigned int  col)
 {
     int **arrayReplaced = arrayCopy(array, rows, col);
@@ -230,7 +232,8 @@ int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col)
     return arrayCopied;
 }
 
-int arrayDestroyer(int **array, unsigned int rows) 
+/*int arrayDestroyer(int **array, unsigned int rows) 
+
 {
     for (int i = 0; i < rows; i++) 
     {
@@ -239,8 +242,9 @@ int arrayDestroyer(int **array, unsigned int rows)
     delete[] array;
     return 0;
 }
+*/
 
-void **printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col)
+int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col)
 {
     int **arrayWithNullRows = arrayCopy(array, rows, col);
 
@@ -252,47 +256,47 @@ void **printArrayWithNullRows(int **array, const unsigned int rows, const unsign
         if ((arrayWithNullRows[i][0] % 3) == 0)
         {
             newrows = newrows + 1;
-            cout << arrayWithNullRows[i][0] << endl;
-
         }
     }
 
-    cout << "колво строк % 3 = " << newrows << endl;
-    
-    int indexRowsDiv3[newrows];
-    unsigned int temp = 0;
 
+    int arraydiv3[newrows];
+
+    unsigned int temp2 = 0;
     for (unsigned int i = 0; i < rows; i++)
     {
         if ((arrayWithNullRows[i][0] % 3) == 0)
         {
-            indexRowsDiv3[temp] = arrayWithNullRows[i][0];
-            temp = temp + 1;
-        }
-    }
-
-    int **NewArray = getArray(rows+newrows, col);
-    unsigned int temp2 = 0;
-
-    for (unsigned int i = 0; i < rows+newrows; i++)
-    {
-        if (indexRowsDiv3[temp2] == i+1)
-        {
-            for (unsigned int j = 0; j < col; i++)
-            {
-                NewArray[i][j] = 0;
-            }
-
+            arraydiv3[temp2] = arrayWithNullRows[i][0];
             temp2 = temp2 + 1;
-            
-        }
-        else if (indexRowsDiv3[temp2] != i+1)
-        {
-            for (unsigned int j = 0; j < col; i++)
-            {
-                NewArray[i][j] = arrayWithNullRows[i][j];
-            }
         }
     }
+
+
+    int **NewArray = getArray(rows+newrows,col);
+    unsigned int temp3 = 0;
+    cout << endl;
+   
+    for (unsigned int i = 0; i < rows; i++)
+    {
+        for (unsigned int j = 0; j < col; j++)
+        {
+            if ((arraydiv3[temp3] == arrayWithNullRows[i][j]) and (j == 0))
+            {
+                temp3 = temp3 + 1;
+                for (unsigned int g = 0; g < col; g++)
+                {
+                    NewArray[i+temp3][g] = arrayWithNullRows[i][g];
+                }
+            }
+            else
+            {
+                NewArray[i+temp3][j] = arrayWithNullRows[i][j];
+            }
+        }   
+    }
+    
     printArray(NewArray, rows+newrows, col);
+    
+    return 0;
 }
