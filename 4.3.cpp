@@ -132,7 +132,6 @@ int main()
 
     printArrayWithNullRows(array, rows, col);
 
-
     return 0;
 }
 
