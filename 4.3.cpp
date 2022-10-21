@@ -8,36 +8,40 @@ using namespace std;
  * \param message Побуждающее сообщение для пользователя.
  * \return Число.
  */
-int getNumber(const string& message);
+size_t get_size(const string& message);
+
 /**
  * \brief Создаёт двумерный массив.
  * \param rows Количество строк в массиве.
- * \param col Количество столбцов массива.
+ * \param columns Количество столбцов массива.
  * \return Возвращает указатель на массив.
  */
-int **getArray(const unsigned int rows, const unsigned int col);
+int **getArray(const size_t rows, const size_t columns);
+
 /**
  * \brief Создает массив чисел, которые вводит пользователь.
  * \param rows Число строк массива.
- * \param col Число столбцов массива.
+ * \param columns Число столбцов массива.
  * \return Возвращает указатель на массив, заполненный пользовательскими числами.
  */
-int **getUserArray(const unsigned int rows, const unsigned int col);
+int **getUserArray(const size_t rows, const size_t columns);
+
 /**
  * \brief Заполняет массив случайными числами от -100 до 100.
  * \param rows Количество строк в массиве.
- * \param col Количество столбцов в массиве.
+ * \param columns Количество столбцов в массиве.
  * \return Возвращает указатель на массив, заполненный случайными числами.
  */
-int **getRandomArray(const unsigned int rows, const unsigned int col);
+int **getRandomArray(const size_t rows, const size_t columns);
+
 /**
  * \brief Выводит массив в консоли.
  * \param array Указатель на массив.
  * \param rows Количество строк в массиве.
- * \param col  Количество столбцов в массиве.
- * \return Возвращает 0 в случае успеха.
+ * \param columns  Количество столбцов в массиве.
  */
-int printArray(int **array, const unsigned int rows, const unsigned int  col);
+void printArray(int **array, const size_t rows, const size_t  columns);
+
 /**
  * \brief Выбор варианта заполнения массива.
  * \param USER_INPUT Пользователь заполняет массив.
@@ -48,30 +52,33 @@ enum class userInput
     USER_INPUT = 1,
     RANDOM_INPUT
 };
+
 /**
  * \brief Передает указатель на массив, в котором самое большое число строки заменяется на ноль.
  * \param array Указатель на массив.
  * \param rows Количество строк в массиве.
- * \param col  Количество столбцов в массиве.
+ * \param columns  Количество столбцов в массиве.
  * \return Возвращает указатель на массив, с замененными числами.
  */
-int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigned int  col);
+int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  columns);
+
 /**
  * \brief Копирует массив.
  * \param array Указатель на массив.
  * \param rows Количество строк в массиве.
- * \param col  Количество столбцов в массиве.
+ * \param columns  Количество столбцов в массиве.
  * \return Возвращает указатель на скопированный массив.
  */
-int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col);
+int **arrayCopy(int **array, const size_t rows, const size_t  columns);
+
 /**
  * \brief Выводит на экран массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
  * \param array Указатель на массив.
  * \param rows Количество строк в массиве.
- * \param col  Количество столбцов в массиве.
+ * \param columns  Количество столбцов в массиве.
  * \return Возвращает 0 в случае успеха.
  */
-int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col);
+void printArrayWithNullRows(int **array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Точка входа в программу.
@@ -79,10 +86,20 @@ int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned 
  */
 int main()
 {
-    const unsigned int rows = getNumber("Введите количество строк массива: ");
-    const unsigned int col = getNumber("Введите количество столбцов массива: ");
+    size_t rows = 0;
+    size_t columns = 0;
+    try
+    {
+        rows = get_size("Введите количество строк массива: ");
+        columns = get_size("Введите количество столбцов массива: ");
+    }
+    catch (std::out_of_range& e)
+    {
+         std::cerr << e.what();
+         return 1;
+    }
 
-    cout << endl;
+    cout << "\n";
     cout << "Введите число, соответствующее вашему желанию заполнения массива:\n" << "\n"
     << static_cast<int>(userInput::USER_INPUT) << " - вы заполняете массив вручную.\n"
     << static_cast<int>(userInput::RANDOM_INPUT) << " - заполняет массив случайными числами.\n\n";
@@ -93,88 +110,98 @@ int main()
     const auto choice = static_cast<userInput>(input);
     cout << "\n";
 
-    int **array;
+    int **array = nullptr;
 
     switch(choice)
     {
         case userInput::USER_INPUT:
         {
-            array = getRandomArray(rows, col);
+            array = getUserArray(rows, columns);
             
             break;
         }
         
         case userInput::RANDOM_INPUT:
         {
-            array = getRandomArray(rows, col);
+            array = getRandomArray(rows, columns);
 
             break;
+        }
+        
+        default:
+        {
+            cerr << "Введено неверное значение\n";
         }
     }
 
     // Вывод начального массива
-    cout << "Начальный массив:" << endl << endl;
+    cout << "Начальный массив:" << "\n" << "\n";
             
-    printArray(array, rows, col);
+    printArray(array, rows, columns);
             
-    cout << endl;
+    cout << "\n";
 
     // Вывод массива, в котором каждый максимальный элемент строки заменен нулем.
-    cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: " << endl << endl;
+    cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: " << "\n" << "\n";
             
-    int **array_with_replace_max = getArrayWithReplaceMax(array, rows, col);
-    printArray(array_with_replace_max, rows, col);
+    int **array_with_replace_max = getArrayWithReplaceMax(array, rows, columns);
+    printArray(array_with_replace_max, rows, columns);
             
-    cout << endl;
+    cout << "\n";
 
     // Вывод массива, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
-    cout << "Массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей: " << endl << endl;
+    cout << "Массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей: " << "\n" << "\n";
 
-    printArrayWithNullRows(array, rows, col);
+    printArrayWithNullRows(array, rows, columns);
 
     return 0;
 }
 
-int getNumber(const string& message)
+size_t get_size(const string& message)
 {
+    int size = -1;
     cout << message;
-    int variable = 0;
-    cin >> variable;
-    return variable;
+    cin >> size;
+
+    if (size < 0)
+    {
+        throw out_of_range("Incorrect size. Value has to be greater or equal zero.");
+    }
+
+    return static_cast<size_t>(size);
 }
 
-int **getArray(const unsigned int rows, const unsigned int col)
+int **getArray(const size_t rows, const size_t columns)
 {
     int **array = new int *[rows];
     
     for (int i = 0; i < rows; i++)
     {
-        array[i] = new int[col];
+        array[i] = new int[columns];
     }
     return array;
 }
 
-int printArray(int **array, const unsigned int rows, const unsigned int  col)
+void printArray(int **array, const size_t rows, const size_t  columns)
 {
     for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < col; j++)
+        for (int j = 0; j < columns; j++)
         {
             cout.width(3);
             cout << array[i][j] << "\t";
         }
         cout << "\n" << "\n";
     }
-    return 0;
 }
 
-int **getUserArray(const unsigned int rows, const unsigned int col)
+int **getUserArray(const size_t rows, const size_t columns)
 {
-    int **array = getArray(rows, col);
+    int **array = getArray(rows, columns);
     
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             cin >> array[i][j];
         }
@@ -183,18 +210,18 @@ int **getUserArray(const unsigned int rows, const unsigned int col)
     return array;
 }
 
-int **getRandomArray(const unsigned int rows, const unsigned int col)
+int **getRandomArray(const size_t rows, const size_t columns)
 {
     const int minValue = -100;
     const int maxValue = 100;
     
-    int** array = getArray(rows, col);
+    int** array = getArray(rows, columns);
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<> uniformIntDistribution(minValue, maxValue);
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             array[i][j] = uniformIntDistribution(gen);
         }
@@ -202,17 +229,17 @@ int **getRandomArray(const unsigned int rows, const unsigned int col)
     return array;
 }
 
-int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigned int  col)
+int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  columns)
 {
-    int **arrayReplaced = arrayCopy(array, rows, col);
+    int **arrayReplaced = arrayCopy(array, rows, columns);
 
     int indexMaxInRow[rows];
 
     int max = -999;
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         max = -999;
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             if (arrayReplaced[i][j] > max)
             {
@@ -222,9 +249,9 @@ int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigne
         indexMaxInRow[i] = max;
     }
 
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             if (arrayReplaced[i][j] == indexMaxInRow[i])
             {
@@ -236,13 +263,13 @@ int **getArrayWithReplaceMax(int **array, const unsigned int rows, const unsigne
     return arrayReplaced;
 }
 
-int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col)
+int **arrayCopy(int **array, const size_t rows, const size_t  columns)
 {
-    int **arrayCopied = getArray(rows, col);
+    int **arrayCopied = getArray(rows, columns);
 
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             arrayCopied[i][j] = array[i][j];
         }
@@ -250,7 +277,7 @@ int **arrayCopy(int **array, const unsigned int rows, const unsigned int  col)
     return arrayCopied;
 }
 
-int arrayDestroyer(int **array, unsigned int rows) 
+int arrayDestroyer(int **array, size_t rows) 
 
 {
     for (int i = 0; i < rows; i++) 
@@ -261,11 +288,11 @@ int arrayDestroyer(int **array, unsigned int rows)
     return 0;
 }
 
-int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned int  col)
+void printArrayWithNullRows(int **array, const size_t rows, const size_t  columns)
 {
-    unsigned int newrows = 0;
+    size_t newrows = 0;
 
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         if ((array[i][0] % 3) == 0)
         {
@@ -275,8 +302,8 @@ int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned 
 
     int arraydiv3[newrows];
 
-    unsigned int temp2 = 0;
-    for (unsigned int i = 0; i < rows; i++)
+    size_t temp2 = 0;
+    for (size_t i = 0; i < rows; i++)
     {
         if ((array[i][0] % 3) == 0)
         {
@@ -285,18 +312,18 @@ int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned 
         }
     }
 
-    int **newArray = getArray(rows+newrows,col);
-    unsigned int temp3 = 0;
-    cout << endl;
+    int **newArray = getArray(rows+newrows,columns);
+    size_t temp3 = 0;
+    cout << "\n";
    
-    for (unsigned int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (unsigned int j = 0; j < col; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             if ((arraydiv3[temp3] == array[i][j]) and (j == 0))
             {
                 temp3 = temp3 + 1;
-                for (unsigned int g = 0; g < col; g++)
+                for (size_t g = 0; g < columns; g++)
                 {
                     newArray[i+temp3][g] = array[i][g];
                 }
@@ -308,13 +335,11 @@ int printArrayWithNullRows(int **array, const unsigned int rows, const unsigned 
         }   
     }
     
-    printArray(newArray, rows+newrows, col);
+    printArray(newArray, rows+newrows, columns);
     arrayDestroyer(newArray, newrows + rows);
     
     for (int i = 0; i < newrows; i++) 
     {
         delete[] array[i];
     }
-    
-    return 0;
 }
