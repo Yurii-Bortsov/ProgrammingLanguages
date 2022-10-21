@@ -16,7 +16,7 @@ size_t get_size(const string& message);
  * \param columns Количество столбцов массива.
  * \return Возвращает указатель на массив.
  */
-int **getArray(const size_t rows, const size_t columns);
+int** getArray(const size_t rows, const size_t columns);
 
 /**
  * \brief Создает массив чисел, которые вводит пользователь.
@@ -24,7 +24,7 @@ int **getArray(const size_t rows, const size_t columns);
  * \param columns Число столбцов массива.
  * \return Возвращает указатель на массив, заполненный пользовательскими числами.
  */
-int **getUserArray(const size_t rows, const size_t columns);
+int** getUserArray(const size_t rows, const size_t columns);
 
 /**
  * \brief Заполняет массив случайными числами от -100 до 100.
@@ -32,7 +32,7 @@ int **getUserArray(const size_t rows, const size_t columns);
  * \param columns Количество столбцов в массиве.
  * \return Возвращает указатель на массив, заполненный случайными числами.
  */
-int **getRandomArray(const size_t rows, const size_t columns);
+int** getRandomArray(const size_t rows, const size_t columns);
 
 /**
  * \brief Выводит массив в консоли.
@@ -40,7 +40,7 @@ int **getRandomArray(const size_t rows, const size_t columns);
  * \param rows Количество строк в массиве.
  * \param columns  Количество столбцов в массиве.
  */
-void printArray(int **array, const size_t rows, const size_t  columns);
+void printArray(int** array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Выбор варианта заполнения массива.
@@ -60,7 +60,7 @@ enum class userInput
  * \param columns  Количество столбцов в массиве.
  * \return Возвращает указатель на массив, с замененными числами.
  */
-int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  columns);
+int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Копирует массив.
@@ -69,7 +69,7 @@ int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  colum
  * \param columns  Количество столбцов в массиве.
  * \return Возвращает указатель на скопированный массив.
  */
-int **arrayCopy(int **array, const size_t rows, const size_t  columns);
+int** arrayCopy(int** array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Выводит на экран массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
@@ -78,7 +78,7 @@ int **arrayCopy(int **array, const size_t rows, const size_t  columns);
  * \param columns  Количество столбцов в массиве.
  * \return Возвращает 0 в случае успеха.
  */
-void printArrayWithNullRows(int **array, const size_t rows, const size_t  columns);
+void printArrayWithNullRows(int** array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Точка входа в программу.
@@ -110,7 +110,7 @@ int main()
     const auto choice = static_cast<userInput>(input);
     cout << "\n";
 
-    int **array = nullptr;
+    int** array = nullptr;
 
     switch(choice)
     {
@@ -144,7 +144,7 @@ int main()
     // Вывод массива, в котором каждый максимальный элемент строки заменен нулем.
     cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: " << "\n" << "\n";
             
-    int **array_with_replace_max = getArrayWithReplaceMax(array, rows, columns);
+    int** array_with_replace_max = getArrayWithReplaceMax(array, rows, columns);
     printArray(array_with_replace_max, rows, columns);
             
     cout << "\n";
@@ -171,9 +171,9 @@ size_t get_size(const string& message)
     return static_cast<size_t>(size);
 }
 
-int **getArray(const size_t rows, const size_t columns)
+int** getArray(const size_t rows, const size_t columns)
 {
-    int **array = new int *[rows];
+    int** array = new int *[rows];
     
     for (int i = 0; i < rows; i++)
     {
@@ -182,7 +182,7 @@ int **getArray(const size_t rows, const size_t columns)
     return array;
 }
 
-void printArray(int **array, const size_t rows, const size_t  columns)
+void printArray(int** array, const size_t rows, const size_t  columns)
 {
     for (int i = 0; i < rows; i++)
     {
@@ -195,9 +195,9 @@ void printArray(int **array, const size_t rows, const size_t  columns)
     }
 }
 
-int **getUserArray(const size_t rows, const size_t columns)
+int** getUserArray(const size_t rows, const size_t columns)
 {
-    int **array = getArray(rows, columns);
+    int** array = getArray(rows, columns);
     
     for (size_t i = 0; i < rows; i++)
     {
@@ -210,7 +210,7 @@ int **getUserArray(const size_t rows, const size_t columns)
     return array;
 }
 
-int **getRandomArray(const size_t rows, const size_t columns)
+int** getRandomArray(const size_t rows, const size_t columns)
 {
     const int minValue = -100;
     const int maxValue = 100;
@@ -229,16 +229,16 @@ int **getRandomArray(const size_t rows, const size_t columns)
     return array;
 }
 
-int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  columns)
+int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns)
 {
-    int **arrayReplaced = arrayCopy(array, rows, columns);
+    int** arrayReplaced = arrayCopy(array, rows, columns);
 
     int indexMaxInRow[rows];
 
-    int max = -999;
+    int max = arrayReplaced[0][0];
     for (size_t i = 0; i < rows; i++)
     {
-        max = -999;
+        max = arrayReplaced[i][0];
         for (size_t j = 0; j < columns; j++)
         {
             if (arrayReplaced[i][j] > max)
@@ -263,9 +263,9 @@ int **getArrayWithReplaceMax(int **array, const size_t rows, const size_t  colum
     return arrayReplaced;
 }
 
-int **arrayCopy(int **array, const size_t rows, const size_t  columns)
+int** arrayCopy(int** array, const size_t rows, const size_t  columns)
 {
-    int **arrayCopied = getArray(rows, columns);
+    int** arrayCopied = getArray(rows, columns);
 
     for (size_t i = 0; i < rows; i++)
     {
@@ -277,18 +277,21 @@ int **arrayCopy(int **array, const size_t rows, const size_t  columns)
     return arrayCopied;
 }
 
-int arrayDestroyer(int **array, size_t rows) 
+void arrayDestroyer(int**& array, const size_t rows)
 
 {
     for (int i = 0; i < rows; i++) 
     {
         delete[] array[i];
     }
-    delete[] array;
-    return 0;
+    if (array != nullptr)
+    {
+        delete[] array;
+        array = nullptr;
+    }
 }
 
-void printArrayWithNullRows(int **array, const size_t rows, const size_t  columns)
+void printArrayWithNullRows(int** array, const size_t rows, const size_t  columns)
 {
     size_t newrows = 0;
 
@@ -312,7 +315,7 @@ void printArrayWithNullRows(int **array, const size_t rows, const size_t  column
         }
     }
 
-    int **newArray = getArray(rows+newrows,columns);
+    int** newArray = getArray(rows+newrows,columns);
     size_t temp3 = 0;
     cout << "\n";
    
