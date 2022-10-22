@@ -299,7 +299,7 @@ void printArrayWithNullRows(int** array, const size_t rows, const size_t  column
     {
         if ((array[i][0] % 3) == 0)
         {
-            newrows = newrows + 1;
+            newrows++;
         }
     }
 
@@ -311,7 +311,7 @@ void printArrayWithNullRows(int** array, const size_t rows, const size_t  column
         if ((array[i][0] % 3) == 0)
         {
             arraydiv3[temp2] = array[i][0];
-            temp2 = temp2 + 1;
+            temp2++;
         }
     }
 
