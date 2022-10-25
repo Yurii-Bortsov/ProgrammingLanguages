@@ -60,7 +60,7 @@ enum class userInput
  * \param columns  Количество столбцов в массиве.
  * \return Возвращает указатель на массив, с замененными числами.
  */
-int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns);
+int* getIndexMaxInRow(int** array, const size_t rows, const size_t  columns);
 
 /**
  * \brief Копирует массив.
@@ -78,7 +78,15 @@ int** arrayCopy(int** array, const size_t rows, const size_t  columns);
  * \param columns  Количество столбцов в массиве.
  * \return Возвращает 0 в случае успеха.
  */
-void printArrayWithNullRows(int** array, const size_t rows, const size_t  columns);
+int** getArrayWithNullRows(int** array, const size_t rows, const size_t  columns);
+
+int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns);
+
+int getMax(int** arrayReplaced, const size_t rows, const size_t columns, const size_t i);
+
+int getNumberOfRowsdiv3(int** array, const size_t rows);
+
+int** getArrayFor2Task(int** array, const int* arraydiv3, const size_t rows, const size_t newrows, const size_t columns);
 
 /**
  * \brief Точка входа в программу.
@@ -143,16 +151,18 @@ int main()
 
     // Вывод массива, в котором каждый максимальный элемент строки заменен нулем.
     cout << "Массив, в котором каждый максимальный элемент строки заменен нулем: " << "\n" << "\n";
-            
-    int** array_with_replace_max = getArrayWithReplaceMax(array, rows, columns);
-    printArray(array_with_replace_max, rows, columns);
+    
+    int** arrayWithReplaceMax = getArrayWithReplaceMax(array, rows, columns);
+    printArray(arrayWithReplaceMax, rows, columns);
             
     cout << "\n";
 
     // Вывод массива, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
     cout << "Массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей: " << "\n" << "\n";
 
-    printArrayWithNullRows(array, rows, columns);
+    int** arrayWithNullRows = getArrayWithNullRows(array, rows, columns);
+    int newrows = getNumberOfRowsdiv3(array, rows);
+    printArray(arrayWithNullRows, rows+newrows, columns);
 
     return 0;
 }
@@ -232,34 +242,20 @@ int** getRandomArray(const size_t rows, const size_t columns)
 int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns)
 {
     int** arrayReplaced = arrayCopy(array, rows, columns);
-
     int indexMaxInRow[rows];
 
-    int max = arrayReplaced[0][0];
+    int max;
     for (size_t i = 0; i < rows; i++)
     {
-        max = arrayReplaced[i][0];
+        max = getMax(arrayReplaced, rows, columns, i);
         for (size_t j = 0; j < columns; j++)
         {
-            if (arrayReplaced[i][j] > max)
-            {
-                max = arrayReplaced[i][j];
-            }
-        }
-        indexMaxInRow[i] = max;
-    }
-
-    for (size_t i = 0; i < rows; i++)
-    {
-        for (size_t j = 0; j < columns; j++)
-        {
-            if (arrayReplaced[i][j] == indexMaxInRow[i])
+            if (arrayReplaced[i][j] == max)
             {
                 arrayReplaced[i][j] = 0;
             }
         }
     }
-
     return arrayReplaced;
 }
 
@@ -291,10 +287,69 @@ void arrayDestroyer(int**& array, const size_t rows)
     }
 }
 
-void printArrayWithNullRows(int** array, const size_t rows, const size_t  columns)
+int** getArrayWithNullRows(int** array, const size_t rows, const size_t  columns)
+{
+    int newrows = getNumberOfRowsdiv3(array, rows);
+
+    int arraydiv3[newrows];
+
+    size_t temp = 0;
+    for (size_t i = 0; i < rows; i++)
+    {
+        if ((array[i][0] % 3) == 0)
+        {
+            arraydiv3[temp] = array[i][0];
+            temp++;
+        }
+    }
+
+    int** newArray = getArrayFor2Task(array, arraydiv3, rows, newrows, columns);
+    
+    return newArray;
+}
+
+int** getArrayFor2Task(int** array, const int* arraydiv3, const size_t rows, const size_t newrows, const size_t columns)
+{
+    int** newArray = getArray(rows+newrows,columns);
+    size_t temp2 = 0;
+   
+    for (size_t i = 0; i < rows; i++)
+    {
+        for (size_t j = 0; j < columns; j++)
+        {
+            if ((arraydiv3[temp2] == array[i][j]) and (j == 0))
+            {
+                temp2++;
+                for (size_t g = 0; g < columns; g++)
+                {
+                    newArray[i+temp2][g] = array[i][g];
+                }
+            }
+            else
+            {
+                newArray[i+temp2][j] = array[i][j];
+            }
+        }   
+    }
+    return newArray;
+}
+
+int getMax(int** arrayReplaced, const size_t rows, const size_t columns, const size_t i)
+{
+    int max = arrayReplaced[i][0];
+    for (size_t j = 0; j < columns; j++)
+    {
+        if (arrayReplaced[i][j] > max)
+        {
+            max = arrayReplaced[i][j];
+        }
+    }
+    return max;
+}
+
+int getNumberOfRowsdiv3(int** array, const size_t rows)
 {
     size_t newrows = 0;
-
     for (size_t i = 0; i < rows; i++)
     {
         if ((array[i][0] % 3) == 0)
@@ -302,47 +357,5 @@ void printArrayWithNullRows(int** array, const size_t rows, const size_t  column
             newrows++;
         }
     }
-
-    int arraydiv3[newrows];
-
-    size_t temp2 = 0;
-    for (size_t i = 0; i < rows; i++)
-    {
-        if ((array[i][0] % 3) == 0)
-        {
-            arraydiv3[temp2] = array[i][0];
-            temp2++;
-        }
-    }
-
-    int** newArray = getArray(rows+newrows,columns);
-    size_t temp3 = 0;
-    cout << "\n";
-   
-    for (size_t i = 0; i < rows; i++)
-    {
-        for (size_t j = 0; j < columns; j++)
-        {
-            if ((arraydiv3[temp3] == array[i][j]) and (j == 0))
-            {
-                temp3 = temp3 + 1;
-                for (size_t g = 0; g < columns; g++)
-                {
-                    newArray[i+temp3][g] = array[i][g];
-                }
-            }
-            else
-            {
-                newArray[i+temp3][j] = array[i][j];
-            }
-        }   
-    }
-    
-    printArray(newArray, rows+newrows, columns);
-    arrayDestroyer(newArray, newrows + rows);
-    
-    for (int i = 0; i < newrows; i++) 
-    {
-        delete[] array[i];
-    }
+    return newrows;
 }
