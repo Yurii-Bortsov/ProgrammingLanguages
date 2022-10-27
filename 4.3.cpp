@@ -72,20 +72,49 @@ int* getIndexMaxInRow(int** array, const size_t rows, const size_t  columns);
 int** arrayCopy(int** array, const size_t rows, const size_t  columns);
 
 /**
- * \brief Выводит на экран массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
+ * \brief Создает массив, в котором перед строками, первый элемент которых делится на 3, вставлена строка нулей.
  * \param array Указатель на массив.
  * \param rows Количество строк в массиве.
  * \param columns  Количество столбцов в массиве.
- * \return Возвращает 0 в случае успеха.
+ * \return Указатель на новый массив.
  */
 int** getArrayWithNullRows(int** array, const size_t rows, const size_t  columns);
 
+/**
+ * \brief Создает массив, в котором каждый максимальный элемент строки заменен нулем.
+ * \param array Указатель на массив.
+ * \param rows Количество строк массива.
+ * \param columns Количество столбцов массива.
+ * \return Указатель на массив, в котором каждый максимальный элемент строки заменен нулем.
+*/
 int** getArrayWithReplaceMax(int** array, const size_t rows, const size_t  columns);
 
+/**
+ * \brief Определяет максимальный элемент в строке массива.
+ * \param arrayReplaced Указатель на двумерный массив.
+ * \param rows Количество строк массива.
+ * \param columns Количество столбцов массива.
+ * \param i Номер строки массива, в которой нужно найти максимальный элемент.
+ * \return Вовзращает значение максимального элемента строки i.
+*/
 int getMax(int** arrayReplaced, const size_t rows, const size_t columns, const size_t i);
 
+/**
+ * \brief Определяет количество строк массива, в которых первый элемент кратен 3.
+ * \param array Указатель на двумерный массив.
+ * \param rows Количество строк массива.
+ * \return Возвращает число строк, первый элемент которых кратен 3.
+*/
 int getNumberOfRowsdiv3(int** array, const size_t rows);
 
+/**
+ * \brief Создает конечный массив для задания 2.
+ * \param aray Указатель на изначальный массив.
+ * \param arraydiv3 Указатель на список из первых элементов строк массива, которые делятся на 3. 
+ * \param rows Количество строк изначального массива
+ * \param newrows Количество строк, которые будут содержать нули.
+ * \param columns Количество столбцов массива.
+*/
 int** getArrayFor2Task(int** array, const int* arraydiv3, const size_t rows, const size_t newrows, const size_t columns);
 
 /**
