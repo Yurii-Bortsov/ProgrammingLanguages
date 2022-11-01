@@ -1,7 +1,7 @@
 #include <iostream>
-using namespace std;
 #include <ctime>
 #include <random>
+using namespace std;
 
 /**
  * \brief Считывает значение числа из консоли.
