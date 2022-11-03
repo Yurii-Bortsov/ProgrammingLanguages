@@ -118,6 +118,13 @@ int getNumberOfRowsdiv3(int** array, const size_t rows);
 int** getArrayFor2Task(int** array, const int* arraydiv3, const size_t rows, const size_t newrows, const size_t columns);
 
 /**
+ * \brief Удаляет созданный двумерный массив.
+ * \param array Указатель на двумерный массив.
+ * \param rows Количество строк в массиве.
+*/
+void arrayDestroyer(int**& array, const size_t rows);
+
+/**
  * \brief Точка входа в программу.
  * \return Возвращает 0 в случае успеха.
  */
@@ -193,6 +200,8 @@ int main()
     int newrows = getNumberOfRowsdiv3(array, rows);
     printArray(arrayWithNullRows, rows+newrows, columns);
 
+    arrayDestroyer(arrayWithNullRows, rows+newrows);
+    arrayDestroyer(arrayWithReplaceMax, rows);
     return 0;
 }
 
@@ -212,9 +221,9 @@ size_t get_size(const string& message)
 
 int** getArray(const size_t rows, const size_t columns)
 {
-    int** array = new int *[rows];
+    int** array = new int* [rows];
     
-    for (int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         array[i] = new int[columns];
     }
@@ -223,9 +232,9 @@ int** getArray(const size_t rows, const size_t columns)
 
 void printArray(int** array, const size_t rows, const size_t  columns)
 {
-    for (int i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (int j = 0; j < columns; j++)
+        for (size_t j = 0; j < columns; j++)
         {
             cout.width(3);
             cout << array[i][j] << "\t";
