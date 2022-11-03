@@ -202,6 +202,7 @@ int main()
 
     arrayDestroyer(arrayWithNullRows, rows+newrows);
     arrayDestroyer(arrayWithReplaceMax, rows);
+    
     return 0;
 }
 
